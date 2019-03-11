@@ -14,13 +14,35 @@ public class PlayerController : MonoBehaviour
     public int speed;
     public float tilt;
     public Boundary boundary;
+    public float fireRate;
+    public GameObject shot;
+    public Transform shotSpawn;
 
     private Rigidbody rb;
+    private float myTime;
+    private float nextFire;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();       
     }
+
+    private void Update()
+    {
+        myTime = myTime + Time.deltaTime;
+
+        if (Input.GetButton("Fire1") && myTime > nextFire)
+        {
+            nextFire = myTime + fireRate;
+            Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+
+            // create code here that animates the newProjectile
+
+            nextFire = nextFire - myTime;
+            myTime = 0.0F;
+        }
+    }
+
 
     private void FixedUpdate()
     {
